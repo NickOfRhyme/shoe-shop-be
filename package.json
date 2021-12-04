@@ -1,0 +1,22 @@
+{
+  "name": "shoe-shop-be",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NickOfRhyme/shoe-shop-be.git"
+  },
+  "author": "Nick Woolrich",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NickOfRhyme/shoe-shop-be/issues"
+  },
+  "homepage": "https://github.com/NickOfRhyme/shoe-shop-be#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
