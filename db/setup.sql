@@ -34,8 +34,10 @@ CREATE TABLE products (
 
 CREATE TABLE orders (
     id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id) NOT NULL,
     total_price_pence INT NOT NULL,
-    delivery_date DATE NOT NULL
+    expected_delivery_date DATE,
+    confirmed_delivery_date DATE
 );
 
 CREATE TABLE orderitems (
