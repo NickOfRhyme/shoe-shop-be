@@ -3,6 +3,7 @@ const express = require("express");
 const apiRouter = express.Router();
 const usersRouter = express.Router();
 const productsRouter = express.Router();
+const ordersRouter = express.Router();
 
 apiRouter.use("/users", usersRouter);
 apiRouter.use("/products", productsRouter);
@@ -30,6 +31,15 @@ productsRouter.route("/:product_id").get((req, res, next) => {
   res.send(
     `Checkout product ${product_id}. Sized ${size}, category ${category_id}, shoe type ${shoe_type_id}`
   );
+});
+
+ordersRouter.route("/").get((req, res, next) => {
+  res.send("Listing orders...!");
+});
+
+ordersRouter.route("/:order_id").get((req, res, next) => {
+  const { order_id } = req.params;
+  res.send(`Checkout order ${order_id}`);
 });
 
 module.exports = apiRouter;
