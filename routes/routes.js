@@ -1,5 +1,12 @@
 const express = require("express");
 
+const { getUsers, getUserById } = require("../controllers/users.controller");
+const {
+  getProducts,
+  getProductById,
+} = require("../controllers/products.controller");
+const { getOrders, getOrderById } = require("../controllers/orders.controller");
+
 const apiRouter = express.Router();
 const usersRouter = express.Router();
 const productsRouter = express.Router();
@@ -7,39 +14,22 @@ const ordersRouter = express.Router();
 
 apiRouter.use("/users", usersRouter);
 apiRouter.use("/products", productsRouter);
+apiRouter.use("/orders", ordersRouter);
 
 apiRouter.route("/").get((req, res, next) => {
   res.send("Golden Shoe API is live!");
 });
 
-usersRouter.route("/").get((req, res, next) => {
-  res.send("Listing users...!");
-});
+usersRouter.route("/").get(getUsers);
 
-usersRouter.route("/:user_id").get((req, res, next) => {
-  const { user_id } = req.params;
-  res.send(`Checkout user ${user_id}`);
-});
+usersRouter.route("/:user_id").get(getUserById);
 
-productsRouter.route("/").get((req, res, next) => {
-  res.send("Listing products...!");
-});
+productsRouter.route("/").get(getProducts);
 
-productsRouter.route("/:product_id").get((req, res, next) => {
-  const { product_id } = req.params;
-  const { category_id, shoe_type_id, size } = req.query;
-  res.send(
-    `Checkout product ${product_id}. Sized ${size}, category ${category_id}, shoe type ${shoe_type_id}`
-  );
-});
+productsRouter.route("/:product_id").get(getProductById);
 
-ordersRouter.route("/").get((req, res, next) => {
-  res.send("Listing orders...!");
-});
+ordersRouter.route("/").get(getOrders);
 
-ordersRouter.route("/:order_id").get((req, res, next) => {
-  const { order_id } = req.params;
-  res.send(`Checkout order ${order_id}`);
-});
+ordersRouter.route("/:order_id").get(getOrderById);
 
 module.exports = apiRouter;
