@@ -41,8 +41,6 @@ exports.seed = (knex) => {
       const userIdRef = makeRefObj(userRows, "second_name", "id");
       const formattedOrders = formatOrders(orderData, userIdRef);
 
-      console.log(formattedOrders);
-
       return Promise.all([
         productRows,
         knex("orders").insert(formattedOrders).returning("*"),

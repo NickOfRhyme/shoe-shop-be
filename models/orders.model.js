@@ -1,12 +1,16 @@
 const knex = require("../db/connection");
 
 module.exports = {
-  fetchOrders: () =>
-    knex("orders")
-      .select("*")
-      .leftJoin("orderitems", "orders.id", "orderitems.order_id"),
+  fetchOrders: () => knex("orders").select("*"),
   fetchOrderById: (orderId) => knex("orders").where({ order_id: orderId }),
-  fetcdOrdersByUserId: (userId) => {
-    knex("orders").where({ user });
-  },
+  fetchOrdersByUserId: (userId) => knex("orders").where({ user_id: userId }),
+  insertOrder: (user_id, total_price_pence, expected_delivery_date) =>
+    knex("orders")
+      .insert({
+        user_id,
+        total_price_pence,
+        expected_delivery_date,
+      })
+      .returning("*")
+      .then((result) => result),
 };

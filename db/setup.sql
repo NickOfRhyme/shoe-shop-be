@@ -29,6 +29,7 @@ CREATE TABLE products (
     full_desc TEXT NOT NULL,
     price_pence INT NOT NULL,
     stock INT NOT NULL,
+    in_carts INT NOT NULL DEFAULT 0,
     size INT NOT NULL
 );
 

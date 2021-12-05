@@ -4,8 +4,19 @@ const { getUsers, getUserById } = require("../controllers/users.controller");
 const {
   getProducts,
   getProductById,
+  postProduct,
+  putProductInCart,
+  reduceStockAfterOrder,
 } = require("../controllers/products.controller");
-const { getOrders, getOrderById } = require("../controllers/orders.controller");
+const {
+  getOrders,
+  getOrderById,
+  postOrder,
+  getOrdersByUserId,
+} = require("../controllers/orders.controller");
+const {
+  getOrderItemsByOrderId,
+} = require("../controllers/order-items.controller");
 
 const apiRouter = express.Router();
 const usersRouter = express.Router();
@@ -24,12 +35,20 @@ usersRouter.route("/").get(getUsers);
 
 usersRouter.route("/:user_id").get(getUserById);
 
-productsRouter.route("/").get(getProducts);
+usersRouter.route("/:user_id/orders").get(getOrdersByUserId);
+
+productsRouter.route("/").get(getProducts).post(postProduct);
 
 productsRouter.route("/:product_id").get(getProductById);
 
-ordersRouter.route("/").get(getOrders);
+productsRouter.route("/:product_id/placeincart").put(putProductInCart);
+
+productsRouter.route("/:product_id/reducestock").put(reduceStockAfterOrder);
+
+ordersRouter.route("/").get(getOrders).post(postOrder);
 
 ordersRouter.route("/:order_id").get(getOrderById);
+
+ordersRouter.route("/:order_id/items").get(getOrderItemsByOrderId);
 
 module.exports = apiRouter;
