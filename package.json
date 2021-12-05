@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/NickOfRhyme/shoe-shop-be#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "knex": "^0.95.14",
     "node-schedule": "^2.1.0",
