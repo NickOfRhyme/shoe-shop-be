@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "setup-dbs": "psql -f ./db/setup.sql -U postgres"
+    "setup-db": "psql -f ./db/setup.sql -U postgres",
+    "seed": "npm run setup-db && knex seed:run"
   },
   "repository": {
     "type": "git",
