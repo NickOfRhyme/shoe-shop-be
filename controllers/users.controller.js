@@ -1,9 +1,15 @@
+const { fetchUsers, fetchUserById } = require("../models/users.models");
+
 module.exports = {
   getUsers: (req, res, next) => {
-    res.send("Listing users...!");
+    fetchUsers().then((users) => {
+      res.send({ users });
+    });
   },
   getUserById: (req, res, next) => {
     const { user_id } = req.params;
-    res.send(`Checkout user ${user_id}`);
+    fetchUserById(user_id).then((user) => {
+      res.send({ user });
+    });
   },
 };
