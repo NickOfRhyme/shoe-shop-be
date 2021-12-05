@@ -3,8 +3,15 @@ const {
   categoryData,
   shoeTypeData,
   userData,
+  orderData,
+  orderItemData,
 } = require("../data/index");
-const { makeRefObj, formatProducts } = require("../utils/utils");
+const {
+  makeRefObj,
+  formatProducts,
+  formatOrders,
+  formatOrderItems,
+} = require("../utils/utils");
 
 exports.seed = (knex) => {
   const categoryInsertions = knex("productcategories")
@@ -13,10 +20,9 @@ exports.seed = (knex) => {
   const shoeTypeInsertions = knex("shoetypes")
     .insert(shoeTypeData)
     .returning("*");
-  return knex
-    .insert(userData)
-    .into("users")
-    .then(() => Promise.all([categoryInsertions, shoeTypeInsertions]))
+  const userInsertions = knex("users").insert(userData).returning("*");
+
+  return Promise.all([categoryInsertions, shoeTypeInsertions])
     .then(([categoryRows, shoeTypeRows]) => {
       const categoryIdRef = makeRefObj(categoryRows, "name", "id");
       const shoeTypeIdRef = makeRefObj(shoeTypeRows, "name", "id");
@@ -26,6 +32,28 @@ exports.seed = (knex) => {
         shoeTypeIdRef
       );
 
-      return knex("products").insert(formattedProducts);
+      return Promise.all([
+        knex("products").insert(formattedProducts).returning("*"),
+        userInsertions,
+      ]);
+    })
+    .then(([productRows, userRows]) => {
+      const userIdRef = makeRefObj(userRows, "second_name", "id");
+      const formattedOrders = formatOrders(orderData, userIdRef);
+
+      console.log(formattedOrders);
+
+      return Promise.all([
+        productRows,
+        knex("orders").insert(formattedOrders).returning("*"),
+      ]);
+    })
+    .then(([productRows, orderRows]) => {
+      const productIdRef = makeRefObj(productRows, "product_name", "id");
+      const orderIdRef = makeRefObj(orderRows, "total_price_pence", "id");
+
+      return knex("orderitems")
+        .insert(formatOrderItems(orderItemData, productIdRef, orderIdRef))
+        .returning("*");
     });
 };
